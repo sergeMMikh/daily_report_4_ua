@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="{{ ui_language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ t.page_title }}</title>
+  <style>
+    :root{--ink:#172033;--muted:#657087;--paper:#fff;--bg:#f3f5f8;--accent:#f5b82e;--accent2:#ffd873;--line:#dce1e8;--danger:#b42318}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,Segoe UI,Arial,sans-serif}
+    .shell{max-width:1240px;margin:32px auto;padding:0 20px}.hero{display:flex;justify-content:space-between;align-items:end;padding:28px 32px;background:linear-gradient(120deg,#ffc72c,#f3a900);border-radius:20px 20px 0 0;box-shadow:0 15px 35px #17203314}.hero h1{margin:0;font-size:clamp(25px,4vw,42px);letter-spacing:.03em}.hero p{margin:5px 0 0}.brand{font-weight:800;white-space:nowrap}.hero-side{text-align:right}.languages{display:flex;gap:5px;justify-content:flex-end;margin-top:10px}.languages button{border:1px solid #17203355;background:#ffffff66;border-radius:7px;padding:4px 8px;font-weight:750;cursor:pointer}.languages button.active{background:var(--ink);color:#fff}
+    .card{background:var(--paper);padding:28px 32px;border-radius:0 0 20px 20px;box-shadow:0 15px 35px #17203314}.top{display:grid;grid-template-columns:180px 180px 1fr;gap:18px;margin-bottom:22px}.field label,.editor label{display:block;font-weight:750;margin-bottom:7px}.field input,.editor textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 13px;font:inherit;background:#fbfcfd}.field input:focus,.editor textarea:focus{outline:3px solid #f5b82e44;border-color:var(--accent)}.now{display:flex;gap:18px;align-items:center;padding-top:31px;color:var(--muted)}.now label{cursor:pointer}.now input{accent-color:var(--accent)}
+    .editors{display:grid;grid-template-columns:1fr 1fr;gap:18px}.editor textarea{min-height:275px;resize:vertical}.editor-head{display:flex;justify-content:space-between;align-items:center}.tag{font-size:12px;background:#eef1f5;color:var(--muted);padding:4px 8px;border-radius:999px}
+    .actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:10px;padding:11px 18px;font-weight:750;cursor:pointer;text-decoration:none;color:var(--ink);background:#edf0f4}.btn.primary{background:var(--accent)}.btn.dark{background:var(--ink);color:#fff}.btn:hover{filter:brightness(.97);transform:translateY(-1px)}.status{color:var(--muted)}.status.error{color:var(--danger)}
+    .messages{padding:0;list-style:none}.messages li{background:#e9f8ef;color:#166534;padding:10px 14px;border-radius:9px;margin-bottom:15px}.errors{color:var(--danger);margin:5px 0;font-size:13px}
+    .below{display:grid;grid-template-columns:1fr auto;gap:25px;margin-top:26px}.recent,.exports{background:#fff;border-radius:16px;padding:22px;box-shadow:0 8px 25px #1720330d}.recent h2,.exports h2{margin:0}.recent-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:14px}.sort-buttons{display:flex;gap:7px;flex-wrap:wrap}.sort-btn{font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--muted);background:#f7f8fa}.sort-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}.report{padding:13px 0;border-top:1px solid var(--line)}.report time{font-weight:750}.report p{margin:5px 0}.report .pt{color:var(--muted)}.exports h2{margin-bottom:14px}.exports .btn{display:block;margin-top:9px}.year-export{display:grid;gap:7px;margin-top:15px;padding-top:15px;border-top:1px solid var(--line)}.year-export label{font-size:13px;font-weight:750}.year-export select{width:100%;padding:9px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}.year-export .btn{margin:0}.admin{display:inline-block;margin-top:18px;color:var(--ink)}
+    @media(max-width:800px){.shell{margin:0;padding:0}.hero,.card{border-radius:0;padding:22px}.hero{align-items:start}.brand{display:none}.top,.editors,.below{grid-template-columns:1fr}.now{padding-top:0}.editor textarea{min-height:200px}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header class="hero"><div><h1>DAILY ACTIVITY REPORT</h1><p>{{ t.subtitle }}</p></div><div class="hero-side"><div class="brand">REPORT DESK</div><form class="languages" method="post" action="{% url 'set-language' %}" aria-label="{{ t.language }}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}"><button name="language" value="ru" class="{% if ui_language == 'ru' %}active{% endif %}">RU</button><button name="language" value="pt" class="{% if ui_language == 'pt' %}active{% endif %}">PT</button><button name="language" value="en" class="{% if ui_language == 'en' %}active{% endif %}">EN</button></form></div></header>
+  <section class="card">
+    {% if messages %}<ul class="messages">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>{% endif %}
+    <form method="post" action="{% url 'report-create' %}" id="report-form">
+      {% csrf_token %}
+      <div class="top">
+        <div class="field"><label for="id_date">{{ t.date }}</label>{{ form.date }}{{ form.date.errors }}</div>
+        <div class="field"><label for="id_time">{{ t.time }}</label>{{ form.time }}{{ form.time.errors }}</div>
+        <div class="now"><label><input type="checkbox" id="today"> {{ t.today }}</label><label><input type="checkbox" id="now"> {{ t.now }}</label></div>
+      </div>
+      {% if ui_language == 'pt' %}
+      <div class="editor"><div class="editor-head"><label for="id_description_pt">{{ t.description }}</label><span class="tag">PT-PT</span></div>{{ form.description_pt }}{{ form.description_pt.errors }}</div>
+      {% else %}
+      <div class="editors"><div class="editor"><div class="editor-head"><label for="id_description_ru">{{ t.description_ru }}</label><span class="tag">RU</span></div>{{ form.description_ru }}{{ form.description_ru.errors }}</div><div class="editor"><div class="editor-head"><label for="id_description_pt">{{ t.description_pt }}</label><span class="tag">PT-PT</span></div>{{ form.description_pt }}{{ form.description_pt.errors }}</div></div>
+      {% endif %}
+      {% if form.non_field_errors %}<div class="errors">{{ form.non_field_errors }}</div>{% endif %}
+      <div class="actions">{% if ui_language != 'pt' %}<button type="button" class="btn dark" id="translate">{{ t.translate }}</button>{% endif %}<button class="btn primary" type="submit">{{ t.save }}</button><span class="status" id="status"></span></div>
+    </form>
+  </section>
+  <section class="below">
+    <div class="recent"><div class="recent-head"><h2>{{ t.recent }}</h2><nav class="sort-buttons"><a class="sort-btn {% if sort == 'desc' %}active{% endif %}" href="?sort=desc">↓ {{ t.newest_first }}</a><a class="sort-btn {% if sort == 'asc' %}active{% endif %}" href="?sort=asc">↑ {{ t.oldest_first }}</a></nav></div>{% for report in reports %}<article class="report"><time>{{ report.occurred_at|date:"d.m.Y H:i" }}</time><p>{{ report.description_ru|linebreaksbr }}</p><p class="pt">{{ report.description_pt|linebreaksbr }}</p></article>{% empty %}<p>{{ t.empty }}</p>{% endfor %}</div>
+    <aside class="exports"><h2>{{ t.export }}</h2><a class="btn" href="{% url 'export-reports' 'week' %}">{{ t.week }}</a><a class="btn" href="{% url 'export-reports' 'month' %}">{{ t.month }}</a><a class="btn" href="{% url 'export-reports' 'year' %}">{{ t.year }}</a><form class="year-export" method="get" action="{% url 'export-reports' 'year' %}"><label for="export-year">{{ t.select_year }}</label><select id="export-year" name="year">{% for year in years %}<option value="{{ year }}">{{ year }}</option>{% endfor %}</select><button class="btn" type="submit">{{ t.export_year }}</button></form><a class="admin" href="/admin/">{{ t.admin }}</a></aside>
+  </section>
+</main>
+<script>
+  const pad=n=>String(n).padStart(2,'0');
+  const localDate=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+  const localTime=()=>{const d=new Date();return `${pad(d.getHours())}:${pad(d.getMinutes())}`};
+  document.querySelector('#today').addEventListener('change',e=>{if(e.target.checked)document.querySelector('#id_date').value=localDate()});
+  document.querySelector('#now').addEventListener('change',e=>{if(e.target.checked)document.querySelector('#id_time').value=localTime()});
+  const translateButton=document.querySelector('#translate');
+  if(translateButton) translateButton.addEventListener('click',async()=>{
+    const button=document.querySelector('#translate'),status=document.querySelector('#status'),text=document.querySelector('#id_description_ru').value;
+    button.disabled=true;status.className='status';status.textContent='{{ t.translating|escapejs }}';
+    const body=new URLSearchParams({text});
+    try{const response=await fetch('{% url "translate" %}',{method:'POST',headers:{'X-CSRFToken':document.querySelector('[name=csrfmiddlewaretoken]').value,'Content-Type':'application/x-www-form-urlencoded'},body});const data=await response.json();if(!response.ok)throw new Error(data.error||'{{ t.translation_error|escapejs }}');document.querySelector('#id_description_pt').value=data.translation;status.textContent='{{ t.translation_ready|escapejs }}'}catch(error){status.className='status error';status.textContent=error.message}finally{button.disabled=false}
+  });
+</script>
+</body>
+</html>
