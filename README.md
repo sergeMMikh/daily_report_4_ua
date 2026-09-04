@@ -1,36 +1,45 @@
-# Daily Activity Report
+# Daily Activity Report — versão portátil para Windows
 
-Daily Activity Report is available in two product variants maintained in separate branches of this repository.
+**Idioma:** **Português** · [English](README-EN.md)
 
-## Choose a version
+Uma aplicação autónoma para Windows 10/11 destinada ao registo diário do trabalho e à preparação de relatórios em português europeu. Basta descarregar um ficheiro executável, colocá-lo numa pasta com permissões de escrita e abri-lo. Não é necessário instalar Python, PostgreSQL ou qualquer instalador adicional.
 
-| Version | Branch | Best for |
-| --- | --- | --- |
-| Windows portable | [`main-win`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-win) | Individual Windows users who want one executable and local data storage |
-| Python/Django | [`main-python`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-python) | Teams that need a shared web application, database, administration, or Docker deployment |
+## Descarregar
 
-Quick links:
+[Descarregar `DailyReport.exe`](https://github.com/sergeMMikh/daily_report_4_ua/raw/refs/heads/main-win/dist/DailyReport.exe)
 
-- [Download `DailyReport.exe`](https://github.com/sergeMMikh/daily_report_4_ua/raw/refs/heads/main-win/dist/DailyReport.exe)
-- [Windows documentation](https://github.com/sergeMMikh/daily_report_4_ua/blob/main-win/README.md)
-- [Python/Django documentation](https://github.com/sergeMMikh/daily_report_4_ua/blob/main-python/README.md)
+O Windows SmartScreen poderá apresentar um aviso porque o executável não está assinado digitalmente. Consulte o código-fonte do repositório antes de o executar. Se confiar neste projeto, selecione **Executar mesmo assim** na janela do SmartScreen.
 
-## Shared capabilities
+## Funcionalidades
 
-Both versions provide report entry with date and time, Russian/Portuguese/English interface modes, optional OpenAI-powered translation from Russian or English into European Portuguese, manual Portuguese entry, chronological sorting, and Excel export for the last seven days, current month, or selected year. Both use the `Europe/Lisbon` time zone.
+- interface local em português, russo e inglês;
+- português selecionado por predefinição;
+- registo de relatórios com data e hora;
+- tradução automática opcional de russo ou inglês para português europeu através da API da OpenAI;
+- introdução manual em português quando a tradução automática não está disponível;
+- ordenação cronológica dos relatórios guardados;
+- exportação para Excel dos últimos sete dias, do mês atual ou de um ano selecionado;
+- armazenamento local em ficheiros JSON UTF-8;
+- sem base de dados externa e sem instalação do Python;
+- acesso exclusivamente local em `http://127.0.0.1:8765`.
 
-## Windows portable version
+## Primeira utilização
 
-The [`main-win`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-win) branch contains a self-contained Windows 10/11 application built with Flask, Waitress, and PyInstaller. Python, PostgreSQL, and an installer are not required on the destination computer.
+1. Descarregue `DailyReport.exe`.
+2. Coloque-o numa pasta com permissões de escrita, por exemplo `Documentos\DailyReport`.
+3. Abra o executável.
+4. A aplicação será aberta no navegador predefinido em `http://127.0.0.1:8765`.
 
-[Download `DailyReport.exe`](https://github.com/sergeMMikh/daily_report_4_ua/raw/refs/heads/main-win/dist/DailyReport.exe), place it in a writable folder, and open it. The application starts a local-only interface at `http://127.0.0.1:8765` and creates these files beside the executable on first launch:
+A aplicação cria automaticamente dois ficheiros junto ao executável:
 
-- `config.json` — OpenAI API key and selected interface language; Portuguese (`pt`) is the default;
-- `reports.json` — report data in readable UTF-8 JSON format.
+- `config.json` — chave da API da OpenAI e idioma selecionado para a interface;
+- `reports.json` — relatórios guardados.
 
-The Windows edition is intended for one user. Back up or move its data by copying `reports.json`. Do not put the executable in `Program Files`, because it must create and update files beside itself.
+Não coloque o executável em `Program Files`, pois a aplicação precisa de criar e atualizar estes ficheiros na mesma pasta.
 
-To enable automatic translation, close the application, add the key to `config.json`, and start it again:
+## Tradução automática
+
+A tradução automática é opcional. Feche a aplicação, adicione uma chave da API da OpenAI ao ficheiro `config.json` e inicie-a novamente:
 
 ```json
 {
@@ -39,9 +48,15 @@ To enable automatic translation, close the application, add the key to `config.j
 }
 ```
 
-The application remains usable without a key; Portuguese text can be entered manually.
+Os valores de idioma suportados são `pt` (português, predefinido), `ru` (russo) e `en` (inglês). A alteração do idioma na interface atualiza o ficheiro `config.json`. Sem uma chave da API, o texto em português pode ser introduzido manualmente.
 
-### Build the Windows executable
+Nunca partilhe nem publique um ficheiro `config.json` preenchido, pois este contém a chave da API.
+
+## Dados e cópias de segurança
+
+Todos os relatórios são guardados no ficheiro `reports.json`, junto ao executável. Para criar uma cópia de segurança ou transferir os dados, feche a aplicação e copie `reports.json` juntamente com o executável. O ficheiro utiliza JSON UTF-8 legível.
+
+## Compilar a partir do código-fonte
 
 ```powershell
 py -m venv .venv
@@ -49,62 +64,12 @@ py -m venv .venv
 .\build.ps1
 ```
 
-The generated file is `dist\DailyReport.exe`.
+O executável será criado em `dist\DailyReport.exe`.
 
-## Python/Django version
-
-The [`main-python`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-python) branch is the server-oriented edition. It uses Django with SQLite for local development or PostgreSQL for shared deployments. It includes Django administration, session-based language selection, WhiteNoise static-file serving, Waitress, and Docker Compose configuration.
-
-### Local setup
-
-```powershell
-py -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-Copy-Item .env.example .env
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver 0.0.0.0:8000
-```
-
-When `POSTGRES_DB` is unset, Django uses `db.sqlite3`. Add `OPENAI_API_KEY` to `.env` for automatic translation. Manual Portuguese input remains available without a key.
-
-- Application: `http://localhost:8000/`
-- Administration: `http://localhost:8000/admin/`
-
-### Docker Compose setup
-
-```powershell
-Copy-Item .env.example .env
-notepad .env
-docker compose up -d --build
-docker compose exec web python manage.py createsuperuser
-```
-
-Before deployment, set secure `DJANGO_SECRET_KEY` and `POSTGRES_PASSWORD` values and configure `DJANGO_ALLOWED_HOSTS`. The default ports are `8000` for the application and `5432` for PostgreSQL. Database data persists in the `postgres_data` Docker volume.
-
-For direct Windows/LAN operation without Docker:
-
-```powershell
-.venv\Scripts\waitress-serve.exe --listen=0.0.0.0:8000 daily_report.wsgi:application
-```
-
-Allow TCP port `8000` only on trusted networks. See [`docs/postgresql-windows.md`](https://github.com/sergeMMikh/daily_report_4_ua/blob/main-python/docs/postgresql-windows.md) for additional PostgreSQL-on-Windows guidance.
-
-## Security and local files
-
-Never commit API keys, `.env`, `config.json`, databases, or personal report data. Repository ignore rules exclude these local files. Use `.env.example` and `config.example.json` as templates.
-
-## Tests
-
-Python/Django branch:
-
-```powershell
-python manage.py test
-```
-
-Windows branch:
+## Testes
 
 ```powershell
 .venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
+
+Para uma instalação partilhada num servidor, com armazenamento centralizado e administração, consulte a edição [`main-python`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-python).
