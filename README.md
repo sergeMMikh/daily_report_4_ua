@@ -89,7 +89,7 @@ For direct Windows/LAN operation without Docker:
 .venv\Scripts\waitress-serve.exe --listen=0.0.0.0:8000 daily_report.wsgi:application
 ```
 
-Allow TCP port `8000` only on trusted networks. See [`docs/postgresql-windows.md`](docs/postgresql-windows.md) for additional PostgreSQL-on-Windows guidance.
+Allow TCP port `8000` only on trusted networks. See [`docs/postgresql-windows.md`](https://github.com/sergeMMikh/daily_report_4_ua/blob/main-python/docs/postgresql-windows.md) for additional PostgreSQL-on-Windows guidance.
 
 ## Security and local files
 
