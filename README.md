@@ -83,5 +83,6 @@ python manage.py test
 Users who need a simple, single-user Windows application without Python, Django, or PostgreSQL can use the separate [`main-win`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-win) branch.
 
 - [Windows documentation — Português](https://github.com/sergeMMikh/daily_report_4_ua/blob/main-win/README.md)
+- [Windows documentation — Русский](https://github.com/sergeMMikh/daily_report_4_ua/blob/main-win/README-RU.md)
 - [Windows documentation — English](https://github.com/sergeMMikh/daily_report_4_ua/blob/main-win/README-EN.md)
 - [Download `DailyReport.exe`](https://github.com/sergeMMikh/daily_report_4_ua/raw/refs/heads/main-win/dist/DailyReport.exe)
