@@ -1,6 +1,6 @@
 # Daily Activity Report — Windows Portable
 
-**Language:** [Português](README.md) · **English**
+**Language:** [Português](README.md) · [Русский](README-RU.md) · **English**
 
 A self-contained Windows 10/11 application for recording daily work and preparing reports in European Portuguese. Download one executable, place it in a writable folder, and open it — Python, PostgreSQL, and an installer are not required.
 

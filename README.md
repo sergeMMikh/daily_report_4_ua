@@ -1,6 +1,6 @@
 # Daily Activity Report — versão portátil para Windows
 
-**Idioma:** **Português** · [English](README-EN.md)
+**Idioma:** **Português** · [Русский](README-RU.md) · [English](README-EN.md)
 
 Uma aplicação autónoma para Windows 10/11 destinada ao registo diário do trabalho e à preparação de relatórios em português europeu. Basta descarregar um ficheiro executável, colocá-lo numa pasta com permissões de escrita e abri-lo. Não é necessário instalar Python, PostgreSQL ou qualquer instalador adicional.
 
