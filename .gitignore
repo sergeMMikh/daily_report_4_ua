@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/*
+!dist/DailyReport.exe
+reports.json
+reports.json.tmp
+config.json
+*.xlsx
