@@ -15,8 +15,6 @@ O Windows SmartScreen poderá apresentar um aviso porque o executável não est�
 - interface local em português, russo e inglês;
 - português selecionado por predefinição;
 - registo de relatórios com data e hora;
-- tradução automática opcional de russo ou inglês para português europeu através da API da OpenAI;
-- introdução manual em português quando a tradução automática não está disponível;
 - ordenação cronológica dos relatórios guardados;
 - exportação para Excel dos últimos sete dias, do mês atual ou de um ano selecionado;
 - armazenamento local em ficheiros JSON UTF-8;
@@ -32,25 +30,10 @@ O Windows SmartScreen poderá apresentar um aviso porque o executável não est�
 
 A aplicação cria automaticamente dois ficheiros junto ao executável:
 
-- `config.json` — chave da API da OpenAI e idioma selecionado para a interface;
+- `config.json` — definições da aplicação e idioma selecionado para a interface;
 - `reports.json` — relatórios guardados.
 
 Não coloque o executável em `Program Files`, pois a aplicação precisa de criar e atualizar estes ficheiros na mesma pasta.
-
-## Tradução automática
-
-A tradução automática é opcional. Feche a aplicação, adicione uma chave da API da OpenAI ao ficheiro `config.json` e inicie-a novamente:
-
-```json
-{
-  "openai_api_key": "YOUR_API_KEY",
-  "language": "pt"
-}
-```
-
-Os valores de idioma suportados são `pt` (português, predefinido), `ru` (russo) e `en` (inglês). A alteração do idioma na interface atualiza o ficheiro `config.json`. Sem uma chave da API, o texto em português pode ser introduzido manualmente.
-
-Nunca partilhe nem publique um ficheiro `config.json` preenchido, pois este contém a chave da API.
 
 ## Dados e cópias de segurança
 
