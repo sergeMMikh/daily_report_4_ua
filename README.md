@@ -21,6 +21,8 @@ O Windows SmartScreen poderá apresentar um aviso porque o executável não est�
 - sem base de dados externa e sem instalação do Python;
 - acesso exclusivamente local em `http://127.0.0.1:8765`.
 
+Nas versões russa e inglesa da interface, está disponível a tradução automática para português.
+
 ## Primeira utilização
 
 1. Descarregue `DailyReport.exe`.
