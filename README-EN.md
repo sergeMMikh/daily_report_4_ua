@@ -55,21 +55,3 @@ Never share or commit a populated `config.json` because it contains the API key.
 ## Data and backups
 
 All reports are stored in `reports.json` beside the executable. To back up or move the data, close Daily Activity Report and copy `reports.json` together with the executable. The file is human-readable UTF-8 JSON.
-
-## Build from source
-
-```powershell
-py -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt -r requirements-build.txt
-.\build.ps1
-```
-
-The generated executable is written to `dist\DailyReport.exe`.
-
-## Tests
-
-```powershell
-.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-For a shared server deployment with centralized storage and administration, see the [`main-python`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-python) edition.

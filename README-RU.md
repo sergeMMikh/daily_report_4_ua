@@ -55,21 +55,3 @@ Windows SmartScreen может показать предупреждение, п
 ## Данные и резервное копирование
 
 Все отчёты хранятся в файле `reports.json` рядом с EXE. Для резервного копирования или переноса данных закройте Daily Activity Report и скопируйте `reports.json` вместе с исполняемым файлом. Это обычный читаемый JSON-файл в кодировке UTF-8.
-
-## Сборка из исходного кода
-
-```powershell
-py -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt -r requirements-build.txt
-.\build.ps1
-```
-
-Готовый исполняемый файл будет создан по пути `dist\DailyReport.exe`.
-
-## Тесты
-
-```powershell
-.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-Для общего серверного развёртывания с централизованным хранилищем и администрированием используйте редакцию [`main-python`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-python).

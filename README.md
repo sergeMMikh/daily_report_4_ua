@@ -40,21 +40,3 @@ Não coloque o executável em `Program Files`, pois a aplicação precisa de cri
 ## Dados e cópias de segurança
 
 Todos os relatórios são guardados no ficheiro `reports.json`, junto ao executável. Para criar uma cópia de segurança ou transferir os dados, feche a aplicação e copie `reports.json` juntamente com o executável. O ficheiro utiliza JSON UTF-8 legível.
-
-## Compilar a partir do código-fonte
-
-```powershell
-py -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt -r requirements-build.txt
-.\build.ps1
-```
-
-O executável será criado em `dist\DailyReport.exe`.
-
-## Testes
-
-```powershell
-.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-Para uma instalação partilhada num servidor, com armazenamento centralizado e administração, consulte a edição [`main-python`](https://github.com/sergeMMikh/daily_report_4_ua/tree/main-python).
